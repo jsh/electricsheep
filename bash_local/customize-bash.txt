@@ -1,0 +1,5 @@
+
+# read bash customization scripts
+for i in ~/.bash_local/*; do
+  [ -f $i ] && source $i
+done

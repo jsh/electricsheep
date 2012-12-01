@@ -1,0 +1,4 @@
+Tools for exploring the Android codebase.
+
+In general, go into the subdirectories and see if you want them.
+If so, "make" is your friend.

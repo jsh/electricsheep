@@ -1,0 +1,9 @@
+To get these installed, just type "make."
+
+To make the .vimrc file useful,
+  $ sudo apt-get install vim-gnome
+
+I make all my local mods in a ~/.bash-local file, rather than scattering them through ~/.bashrc, ~/.bash-profile, and so on.
+
+To make the .bash* files useful, add this line to your ~/.bashrc
+  if [ -f ~/.bash-local ]; then source ~/.bash-local; fi
