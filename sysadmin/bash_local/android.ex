@@ -1,7 +1,7 @@
 # Where everything is
 
-JAVA_HOME=~/jdk1.6.0_37
-JAVA6_HOME=~/jdk1.6.0_37
+export JAVA_HOME=/usr/lib/jvm/java-6-sun/jre
+PATH+=:~/Development/adt-bundle-linux-x86/eclipse
 PATH+=:~/android-sdks/platform-tools:~/android-sdks/tools
 
 # make builds faster
@@ -10,7 +10,6 @@ PARALLEL=-j4
 
 
 # class-specific stuff
-MAKEARGS="TARGET_PRODUCT=beaglebone OMAPES=4.x $PARALLEL"
 export aroot=/home/android/dev/TI_Android_GingerBread_2_3_4_AM335x_Sources
 export aprod=$aroot/out/target/product/beaglebone
 export adrv=$aroot/device/ti/beaglebone
@@ -20,5 +19,6 @@ alias cdd='cd $adrv'
 
 # set up the build environment
 source $aroot/build/envsetup.sh
+MAKEARGS="TARGET_PRODUCT=beaglebone OMAPES=4.x $PARALLEL"
 alias m='m $MAKEARGS'
 alias mm='mm $MAKEARGS'
