@@ -1,0 +1,15 @@
+#!/bin/bash -eux
+# Set up a java repo that has Sun's Java 6,
+# install the jdk and the plugin
+# and make its tools the defaults.
+
+if ! [ -x ~/bin/oab-java.sh ]; then
+  cd ~/bin
+  wget http://github.com/flexiondotorg/oab-java6/raw/0.2.6/oab-java.sh oab-java.sh
+  chmod +x oab-java.sh
+  source ./oab-java.sh
+fi
+
+sudo apt-get update
+sudo apt-get -y install sun-java6-jdk sun-java6-plugin
+sudo update-java-alternatives -s java-6-sun

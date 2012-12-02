@@ -1,0 +1,11 @@
+#!/bin/bash -eux
+# Get the SDK, eclipse, and the ADT
+
+echo "Press the 'Download the SDK' button on the web page when it comes up."
+echo "It will take quite a while to download, so find something to do while it does."
+echo "After it finishes, run '$PWD/install-adt'"
+read -p "Press <Enter> to begin, <Ctrl-C> to cancel "
+
+# amazingly, the downloads page doesn't display correctly in Firefox.
+type -p chromium-browser || sudo apt-get install chromium-browser
+chromium-browser http://developer.android.com/sdk
