@@ -1,0 +1,3 @@
+#!/bin/bash -eux
+
+sudo apt-get -y install minicom putty vinagre
