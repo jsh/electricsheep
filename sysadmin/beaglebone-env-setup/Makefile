@@ -8,7 +8,10 @@ PATH := $(PATH):
 newrules := $(wildcard *.rules)
 udevrules := $(addprefix /etc/udev/rules.d/, $(newrules))
 
-default: $(udevrules) packages
+default: $(udevrules) packages ~/.minirc.dfl
 
 packages:
 	get-packages
+
+~/.minirc.dfl: minirc.dfl
+	sudo cp $< $@
