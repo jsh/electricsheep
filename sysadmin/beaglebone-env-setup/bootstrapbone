@@ -1,0 +1,29 @@
+#!/bin/bash -eux
+# get the tarball, download and untar the code, and burn it to a micro-SD card.
+# 
+
+die() { echo "$*" >&2; exit -1; }
+
+source_tarball=http://software-dl.ti.com/dsps/dsps_public_sw/sdo_tii/TI_Android_DevKit/TI_Android_GingerBread_2_3_4_DevKit_2_1_1/exports/BeagleBone.tar.gz
+
+read -p "What device is your sd card? " dev
+case $dev in
+  /dev/sd[a-z]) ;;
+  *) die "'$dev' should be /dev/sd[a-z]"
+esac
+
+if ! mount | grep $dev | grep -q /media; then
+  die "'$dev' does not appear to be mounted"
+fi
+exit
+
+cd ~/Downloads
+
+# get the code if you don't have it
+if ! [ -d BeagleBone ]; then
+  wget $source_tarball > BeagleBone.tar.gz
+  tar -zxvf BeagleBone.tar.gz
+fi
+
+cd BeagleBone
+sudo ./mkmmc-android.sh $dev
