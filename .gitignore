@@ -1,6 +1,6 @@
 foo
 bar
 baz
-.bak
-.old
+*.bak
+*.old
 *.swp
