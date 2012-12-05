@@ -1,6 +1,15 @@
-# Test the setup
+# Run tests
 
-test:
-	./t1
+SHELL := /bin/bash
+PATH := :$(PATH)
+all_tests := $(basename $(wildcard *.t) .t)
 
-.PHONY: test
+# "make foo" runs "./foo.t"
+% :
+	./$*.t
+
+# run all the tests in this directory
+default: $(all_tests)
+
+.PHONY: default 
+
