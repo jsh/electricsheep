@@ -1,3 +1,5 @@
+# Run the tests
+
 SHELL := /bin/bash
 PATH := $(PATH):
 
