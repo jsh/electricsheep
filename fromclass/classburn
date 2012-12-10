@@ -1,0 +1,20 @@
+#!/bin/bash -eux
+
+cd ~/dev/
+
+[ -d BeagleBone-orig ] ||
+  cp -a BeagleBone BeagleBone-orig
+# Create new rootfs images
+cd TI_Android_GingerBread_2_3_4_AM335x_Sources/out/target/product/beaglebone
+rm -rf android_rootfs
+mkdir android_rootfs
+cp -a root/* android_rootfs/
+cp -r system android_rootfs/
+sudo ../../../../build/tools/mktarball.sh ../../../host/linux-x86/bin/fs_get_stats android_rootfs . rootfs rootfs_beaglebone.tar.bz2
+# Copy new rootfs to BeagleBone directory
+sudo cp rootfs_beaglebone.tar.bz2 ~/Desktop/android/BeagleBone/Filesystem
+# Plug the MicroSD card into the MicroSD-USB connector and into your host
+# Program the MicroSD card
+cd ~/Desktop/android/BeagleBone
+echo y | sudo ./mkmmc-android.sh /dev/sdb
+

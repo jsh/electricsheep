@@ -1,0 +1,6 @@
+#!/bin/bash -eux
+
+cd /home/android/dev/TI_Android_GingerBread_2_3_4_AM335x_Sources/out/target/product/beaglebone
+rm -rf root ramdisk.img
+cd /home/android/dev/TI_Android_GingerBread_2_3_4_AM335x_Sources
+time make TARGET_PRODUCT=beaglebone OMAPES=4.x -j4
