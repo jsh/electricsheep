@@ -2,3 +2,6 @@
 
 adb shell 'netcfg eth0 up'
 adb shell 'ifconfig eth0 192.168.1.1 netmask 255.255.255.0'
+if ! grep -q beaglebone /etc/hosts; then
+  sudo sh -c 'echo 192.168.1.1 beaglebone.localdomain beaglebone >> /etc/hosts'
+fi
