@@ -1,5 +1,3 @@
-#!/system/bin/sh
+#!/bin/bash
 
-netcfg eth0 up
-ifconfig eth0 192.168.1.1 netmask 255.255.255.0
-androidvncserver &
+adb shell adbvncserver &> /tmp/adbvncserver.log &
