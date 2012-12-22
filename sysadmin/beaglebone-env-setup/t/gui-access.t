@@ -7,9 +7,9 @@ source testenv.sh
 _testname adb access to device
 adb shell date
 
-_testname vnc access to gui
+_testname vnc access to gui over serial
 # start the remote vncserver
-adb shell 'androidvncserver &'
+adb shell 'androidvncserver' &> /tmp/androidvncserver.log &
 
 # tunnel packets from host's VNC port to target's.
 adb forward tcp:1509 tcp:1509
