@@ -1,0 +1,68 @@
+adb shell gets me into the box over the serial line,
+adb kill-server gets me out of situations where the adb server is confused,
+and adb logcat dumps out logs,
+but there's more to it.
+
+The host adb client talks to the target adb daemon (adbd), therough the host adb server.
+If no server is running, any use of adb creates a new one.
+
+$ adb kill-server # kill any server that might be running
+$ ps ajax | grep [a]db  # no output
+$ adb shell ps | grep adbd # daemon running on the target
+root      67    1     3416   172   ffffffff 00008294 S /sbin/adbd
+$ ps ajax | grep [a]db # 'adb shell' started a new host server
+    1  7161  7158  3629 pts/4     7201 Sl    1000   0:00 adb fork-server server
+$ adb kill-server # kill host server again
+$ ps ajax | grep [a]db  # no output
+$ adb shell ps | grep adbd # target daemon target still running
+root      67    1     3416   172   ffffffff 00008294 S /sbin/adbd
+$ adb kill-server # but now there's a new server, again started by 'adb shell'
+    1  7240  7237  3629 pts/4     7249 Sl    1000   0:00 adb fork-server server
+
+
+adb shell creates a new shell on the target, launched by adbd, and talks to it over port 5037.
+
+A quick look at the help (adb --help) shows many other sub-commands.
+
+adb forward does port forwarding
+adb backup dumps over 10,000 lines of info
+adb push pushes files to the device
+adb pulls them off
+
+adb get-serialno prints the device name, "0123456789ABCDEF"
+adb get-state prints "device"
+adb get-devpath prints "usb:1-1.2"
+adb devices -l gives all of these
+  List of devices attached 
+  0123456789ABCDEF       device usb:1-1.2
+adb status-window prints "device", switches to "unknown" when I unplug it, then back to "device" when I plug it back in.
+If I reboot, the switch to "device" is coincident with the announcement by Network Manager that the connection has been established.
+
+This doesn't mean the device is pingable. For that, I need to bring the network up.
+I can do this by using "adb shell" to become root on the target, then executing commands.
+I could create a script and push it over with adb push, then execute it at board bring-up.
+But adb shell [cmd] lets me do it all on the host
+
+$ adb shell 'netcfg eth0 up'
+$ adb shell 'ifconfig eth0 192.168.1.1 netmask 255.255.255.0'
+
+and now I can ping 192.168.1.1!
+
+Similarly,
+$ adb shell androidvncserver &> /tmp/androidvncserver.log &
+
+brings up the remote vncserver and lets me connect to it from my VNC client on the host.
+
+Note that this puts the job in the background on the host.  I can't yet figure out how to bring up this job so it's running in the background on the *target*, so killing the server kills the connection
+
+On coming up, the androidvncserver says it's listening on for VNC connections on port 5901. I can connect over ethernet, but if I don't have an ethernet cable handy, I can even use adb to tunnel all traffic over the serial line between the VNC ports on the host and the target, like this:
+
+$ adb forward tcp:5901 tcp:5901
+
+It also says it's listening for http connections on 5801. Sure enough, if I browse to http:192.168.1.1:5801 in a browser, I do get connected. Sadly, the browser just displays "File Not Found" so I don't yet have this piece all figured out, either.
+
+Here are some other things, I can't yet get to work:
+
+adb reboot bootloader seems just to reboot, not to stop at a u-boot prompt.
+ANDROID_LOG_TAGS looks useful, but I can't figure out how to make it work.
+
