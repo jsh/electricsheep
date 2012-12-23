@@ -1,2 +1,7 @@
 #SUBSYSTEM=="usb", ATTR{idVendor}=="0bb4", MODE="0666", GROUP="plugdev" 
 SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666", GROUP="plugdev" 
+#
+# Karim's notes say this:
+#SUBSYSTEM=="usb", SYSFS{idVendor}=="18d1", MODE="0666"
+#SUBSYSTEM=="usb", SYSFS{idVendor}=="0451", MODE="0666"
+# See http://www.opersys.com/blog/beaglebone-android-start
