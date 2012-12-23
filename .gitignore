@@ -1,6 +1,8 @@
 foo
 bar
 baz
+workspace
+Docs
 *.bak
 *.old
 *.swp
