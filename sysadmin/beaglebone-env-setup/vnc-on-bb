@@ -1,3 +1,12 @@
 #!/bin/bash
 
-adb shell adbvncserver &> /tmp/adbvncserver.log &
+trap 'echo beaglebone not responding' ERR
+set -e
+
+if ! ping -c1 -q -w1 beaglebone >/dev/null; then
+  ./bring-up-eth0
+  ping -c1 -q -w1 beaglebone >/dev/null
+fi
+
+adb shell androidvncserver &> /tmp/androidvncserver.log &
+vinagre 192.168.1.1::5901 &
