@@ -1,0 +1,7 @@
+#!/bin/bash -eux
+
+source=http://downloads.ti.com/dsps/dsps_public_sw/sdo_tii/TI_Android_DevKit/TI_Android_GingerBread_2_3_4_DevKit_2_1_1/exports/TI_Android_GingerBread_2_3_4_AM335x_Sources.tar.gz
+
+curl $source > $(basename $source)
+
+
