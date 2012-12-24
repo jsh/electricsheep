@@ -1,0 +1,28 @@
+#!/bin/bash -eu
+
+trap ': == $0: FAIL' ERR
+PS4='[ $(date +%T) ] '
+set -x
+
+: == $0: BEGIN
+
+export PATH=$aroot/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin:$PATH
+
+cd $aroot
+
+: ==== Build u-boot
+pushd u-boot
+make CROSS_COMPILE=arm-eabi- distclean
+make CROSS_COMPILE=arm-eabi- am335x_evm_config
+make -j 4 CROSS_COMPILE=arm-eabi- 
+popd
+
+: ==== Build the kernel
+pushd kernel
+make ARCH=arm CROSS_COMPILE=arm-eabi- distclean
+make ARCH=arm CROSS_COMPILE=arm-eabi- beaglebone_android_defconfig
+make -j 4 ARCH=arm CROSS_COMPILE=arm-eabi- uImage
+popd
+
+: == $0: SUCCESS
+exit 0
