@@ -1,0 +1,23 @@
+#!/bin/bash -eu
+
+trap ': == $0: FAIL' ERR
+PS4='[ $(date +%T) ] '
+set -x
+
+: == $0: BEGIN
+
+njobs=${1?"no number defined"}
+
+export PATH=$aroot/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin:$PATH
+
+cd $aroot
+
+: ==== Build u-boot
+pushd u-boot
+make CROSS_COMPILE=arm-eabi- distclean
+make CROSS_COMPILE=arm-eabi- am335x_evm_config
+make -j $njobs CROSS_COMPILE=arm-eabi- 
+popd
+
+: == $0: SUCCESS
+exit 0

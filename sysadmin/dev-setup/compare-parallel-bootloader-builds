@@ -1,0 +1,6 @@
+#!/bin/bash -eux
+
+for i in {1..4}; do
+  echo == $i ==
+  ./time-bootloader-build $i |& grep ' == '
+done
