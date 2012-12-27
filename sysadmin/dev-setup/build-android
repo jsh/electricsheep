@@ -1,0 +1,38 @@
+#!/bin/bash -eu
+
+trap ': == $0: FAIL' ERR
+PS4='[ $(date +%T) ] '
+set -x
+
+: == $0: BEGIN
+
+export PATH=$aroot/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin:$PATH
+
+cd $aroot
+
+: ==== ancillary code
+
+: ====== rowboat perf integration
+if [ -d rowboperf ]; then
+  pushd rowboperf
+  git pull
+  popd
+else
+  git clone -b rowboat-gingerbread git://gitorious.org/rowboat/rowboperf.git
+fi
+
+: ====== vnc integration
+if [ -d droid-vnc-server ]; then
+  pushd droid-vnc-server
+  git pull
+  popd
+else
+  git clone -b rowboat-gingerbread git://gitorious.org/rowboat/droid-vnc-server.git
+fi
+
+: ==== Build the android filesystem
+
+make TARGET_PRODUCT=beaglebone OMAPES=4.x -j2
+
+: == $0: SUCCESS
+exit 0
