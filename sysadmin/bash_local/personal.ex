@@ -1,5 +1,6 @@
 # my stuff
 
+#export HOSTNAME=asp2
 export PATH+=:~/bin
 
 # history

@@ -22,9 +22,9 @@ export _n="\[\e[0m\]"
 
 long-prompt() {
   if [ $? = 0 ]; then
-    PS1="\u@\h:\w${_g}\$${_n} "
+    PS1="\u@$HOSTNAME:\w${_g}\$${_n} "
   else
-    PS1="\u@\h:\w${_r}\$${_n} "
+    PS1="\u@$HOSTNAME:\w${_r}\$${_n} "
   fi
   xpwd
 }
