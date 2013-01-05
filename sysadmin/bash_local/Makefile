@@ -5,7 +5,7 @@ BASHFILES := $(basename $(addprefix ~/.bash_local/,$(wildcard *.ex)))
 
 $(HOME)/.bash_local/% : %.ex
 	[ -d $(HOME)/.bash_local ] || mkdir $(HOME)/.bash_local
-	ln $< $@
+	if [ -f $@ ]; then ln -i $< $@; else ln $< $@; fi
 
 default: $(BASHFILES) ~/.bashrc
 
